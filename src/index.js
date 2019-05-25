@@ -35,9 +35,7 @@ function sumWithDefaults(a, b) {
         b=100;
     }
 
-    var m = a + b;
-
-    return m;
+    return a + b;
 }
 
 /*
