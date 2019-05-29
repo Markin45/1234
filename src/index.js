@@ -77,12 +77,8 @@ function upperProps(obj) {
  Напишите аналог встроенного метода slice для работы с массивами
  Посмотрите как работает slice и повторите это поведение для массива, который будет передан в параметре array
  */
-function slice(array, from, to) {
+function slice(array, from=0, to) {
     var nArray = [];
-
-    if (from === undefined) {
-        from = 0;
-    }
 
     if (to === undefined) {
         to = array.length;
@@ -123,7 +119,7 @@ function createProxy(obj) {
     let proxy = new Proxy(obj, {
         set(target, prop, value) {
             target[prop] = value*value;
-            
+
             return true;
         }
     })
