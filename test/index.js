@@ -118,7 +118,7 @@ describe('ДЗ 2 - работа с исключениями и отладчик�
 
     describe('calculator', () => {
         it('должна возвращать объект с методами', () => {
-            let calc = calculator();
+            let calc = calculator(); 
 
             assert.includeMembers(Object.keys(calc), ['sum', 'dif', 'div', 'mul']);
         });
