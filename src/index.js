@@ -164,7 +164,7 @@ function collectDOMStat(root) {
     };
 
     (function statNode(root) {
-
+        
         for (var child of root.childNodes) {
 
             if (child.nodeType == 3) {
