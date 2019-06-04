@@ -28,34 +28,34 @@ const homeworkContainer = document.querySelector('#homework-container');
  */
 function createDiv() {
 
-	function getRandomArbitary(min, max){
-		return Math.random() * (max - min) + min;
-	}
+    function getRandomArbitary (min, max) {
+        return Math.random() * (max - min) + min;
+    }
 
-	function randColor() {
-		return '#' + Math.floor(Math.random()*16777215).toString(16);
-	}
+    function randColor() {
+        return '#' + Math.floor(Math.random()*16777215).toString(16);
+    }
 
-	var div = document.createElement('div');
+    var div = document.createElement('div');
 
-	var body_width = document.body.clientWidth || 500;
-	var body_height = document.body.clientHeight || 500;
-	var div_width = getRandomArbitary(10,body_width/2);
-	var div_height = getRandomArbitary(10,body_height/2);
-	var div_left = getRandomArbitary(0,body_width-div_width);
-	var div_top = getRandomArbitary(0,body_height-div_height);
-	
-	div.classList.add("draggable-div");
-	div.style.width = div_width+'px';
-	div.style.height = div_height+'px';
-	div.style.left = div_left+'px';
-	div.style.top = div_top+'px';
-	div.style.background = randColor();
+    var bodyWidth = document.body.clientWidth || 500;
+    var bodyHeight = document.body.clientHeight || 500;
+    var divWidth = getRandomArbitary(10, bodyWidth/2);
+    var divHeight = getRandomArbitary(10, bodyHeight/2);
+    var divLeft = getRandomArbitary(0, bodyWidth-divWidth);
+    var divTop = getRandomArbitary(0, bodyHeight-divHeight);
+    
+    div.classList.add('draggable-div');
+    div.style.width = divWidth+'px';
+    div.style.height = divHeight+'px';
+    div.style.left = divLeft+'px';
+    div.style.top = divTop+'px';
+    div.style.background = randColor();
 
-	div.setAttribute('draggable', 'true');
-	div.setAttribute( "id", "id"+(Math.floor(Math.random()*2000)));
+    div.setAttribute('draggable', 'true');
+    div.setAttribute('id', 'id' + (Math.floor(Math.random()*2000)) );
 
-	return div;
+    return div;
 }
 
 /*
@@ -66,44 +66,42 @@ function createDiv() {
    homeworkContainer.appendChild(newDiv);
    addListeners(newDiv);
  */
-//function addListeners(target) {}
+// function addListeners(target) {}
 
 homeworkContainer.addEventListener('dragstart', e => {
-	var id = e.target.getAttribute('id');
-	
-	e.dataTransfer.setData('id', id);
-	e.dataTransfer.setData('plusX', e.clientX - e.target.offsetLeft);
-	e.dataTransfer.setData('plusY', e.clientY - e.target.offsetTop);
+    var id = e.target.getAttribute('id');
+    
+    e.dataTransfer.setData('id', id);
+    e.dataTransfer.setData('plusX', e.clientX - e.target.offsetLeft);
+    e.dataTransfer.setData('plusY', e.clientY - e.target.offsetTop);
 }, false);
 homeworkContainer.addEventListener('dragover', e => {
-	e.preventDefault();
-}, false);		
-homeworkContainer.addEventListener('drop', e => {
-	var id = e.dataTransfer.getData('id');
-	var y = e.clientY - e.dataTransfer.getData('plusY');
-	var x = e.clientX - e.dataTransfer.getData('plusX');
-	var element = document.getElementById(id);
-	
-	
-	element.style.left = x+'px';
-	element.style.top = y+'px';			
+    e.preventDefault();
 }, false);
-
+homeworkContainer.addEventListener('drop', e => {
+    var id = e.dataTransfer.getData('id');
+    var y = e.clientY - e.dataTransfer.getData('plusY');
+    var x = e.clientX - e.dataTransfer.getData('plusX');
+    var element = document.getElementById(id);
+    
+    element.style.left = x + 'px';
+    element.style.top = y + 'px';
+}, false);
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
 
 addDivButton.addEventListener('click', function() {
-	// создать новый div
-	const div = createDiv();
+    // создать новый div
+    const div = createDiv();
 
-	// добавить на страницу
-	homeworkContainer.appendChild(div);
-	// назначить обработчики событий мыши для реализации D&D
-	//addListeners(div);
-	// можно не назначать обработчики событий каждому div в отдельности, а использовать делегирование
-	// или использовать HTML5 D&D - https://www.html5rocks.com/ru/tutorials/dnd/basics/
+    // добавить на страницу
+    homeworkContainer.appendChild(div);
+    // назначить обработчики событий мыши для реализации D&D
+    // addListeners(div);
+    // можно не назначать обработчики событий каждому div в отдельности, а использовать делегирование
+    // или использовать HTML5 D&D - https://www.html5rocks.com/ru/tutorials/dnd/basics/
 });
 
 export {
-	createDiv
+    createDiv
 };
