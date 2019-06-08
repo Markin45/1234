@@ -7,6 +7,10 @@ module.exports = function(config) {
         files: [
             'test/**/*.js'
         ],
+        browserConsoleLogOptions: {
+            terminal: true,
+            level: ""
+        },
         preprocessors: {
             'test/**/*.js': ['webpack', 'sourcemap'],
         },
