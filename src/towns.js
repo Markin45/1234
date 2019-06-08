@@ -95,14 +95,14 @@ function loadTowns() {
    isMatching('Moscow', 'Moscov') // false
  */
 function isMatching(full, chunk) {
-    var eRegExp = new RegExp('.*' + chunk + '.*', 'i'),
-        bool = false;
+    var eRegExp = new RegExp('.*' + chunk + '.*', 'i');
 
     if (eRegExp.exec(full)) {
-        bool=true;
+        
+        return true;
     }
 
-    return bool;
+    return false;
 }
 
 /* Блок с надписью "Загрузка" */
@@ -143,30 +143,18 @@ var loadingEND = towns => {
             filterResult.appendChild(fragm);
         }
     });
-
     arrTowns = towns;
-
+};
+var loadingERROR = () => {
+    loadingBlock.style.display = 'none';
+    erorrResult.style.display = 'block';
 };
 
-loadTowns()
-    .then(towns => loadingEND(towns))
-    .catch(
-        () => {
-            loadingBlock.style.display = 'none';
-            erorrResult.style.display = 'block';
-        }  
-    );
+loadTowns().then(loadingEND, loadingERROR)
 
 erorrRepeat.addEventListener('click', () => {
     erorrResult.style.display = 'none';
-    loadTowns()
-        .then(towns => loadingEND(towns))
-        .catch(
-            () => {
-                loadingBlock.style.display = 'none';
-                erorrResult.style.display = 'block';
-            }  
-        );
+    loadTowns().then(loadingEND, loadingERROR)
 }, false);
 
 export {
