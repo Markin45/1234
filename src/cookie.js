@@ -48,10 +48,28 @@ filterNameInput.addEventListener('keyup', () => {
 });
 
 addButton.addEventListener('click', () => {
-    document.cookie = addNameInput.value + '=' + addValueInput.value;
+    var cook = `${addNameInput.value}=${addValueInput.value}`;
+
+    document.cookie = cook;
+
+    // удалим старую td
+    const allTD = listTable.querySelectorAll('tr td:first-child');
+
+    for (let oneTD of allTD) {
+        if (oneTD.innerText==addNameInput.value) {
+            listTable.removeChild(oneTD.parentNode);
+        }
+    }  
+
+    var td = creatTD(cook);
+
+    if (td!==undefined) {
+        listTable.appendChild(td);
+    }
+
     addNameInput.value='';
     addValueInput.value='';
-    showTable();
+
 });
 
 listTable.addEventListener('click', e => {
@@ -66,28 +84,36 @@ listTable.addEventListener('click', e => {
 
 function showTable() {
     var fragment = document.createDocumentFragment();
-    var find = filterNameInput.value;
 
     document.cookie.split('; ').forEach(item => { 
-        var td = document.createElement('tr')
-        var html = '';
-        var [name, value] = item.split('=');
-
-        if (find!='') {
-            var eRegExp = new RegExp('.*'+find+'.*', 'i');
-
-            if ((!eRegExp.exec(name))&&(!eRegExp.exec(value))) {
-                return;
-            }
+        var td = creatTD(item);
+        
+        if (td!==undefined) {
+            fragment.appendChild(td);   
         }
-
-        html += `<td>${name}</td>`;
-        html += `<td>${value}</td>`;
-        html += '<td><button id="add-button">удалить cookie</button></td>';
-        td.innerHTML = html;
-        fragment.appendChild(td);
     });
     listTable.innerHTML='';
     listTable.appendChild(fragment); 
 }
 showTable();
+
+function creatTD(item) {
+    var td = document.createElement('tr')
+    var html = '';
+    var [name, value] = item.split('=');
+    var find = filterNameInput.value;
+
+    if (find!='') {
+        var eRegExp = new RegExp('.*'+find+'.*', 'i');
+
+        if ((!eRegExp.exec(name))&&(!eRegExp.exec(value))) {
+            return;
+        }
+    }
+    html += `<td>${name}</td>`;
+    html += `<td>${value}</td>`;
+    html += '<td><button id="add-button">удалить cookie</button></td>';
+    td.innerHTML = html;
+
+    return td;
+}
